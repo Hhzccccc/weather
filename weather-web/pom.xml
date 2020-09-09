@@ -21,7 +21,6 @@
             <artifactId>weather-core</artifactId>
         </dependency>
 
-
         <!-- Mysql驱动包 -->
         <dependency>
             <groupId>mysql</groupId>

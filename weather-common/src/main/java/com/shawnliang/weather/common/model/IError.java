@@ -9,6 +9,14 @@ package com.shawnliang.weather.common.model;
 public interface IError {
 
     /**
+     * 获取基础编号
+     * @return .
+     */
+    default int getBaseCode() {
+        return 1;
+    }
+
+    /**
      * 获取中间编号
      * @return .
      */
