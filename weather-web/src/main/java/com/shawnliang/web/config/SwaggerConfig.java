@@ -25,10 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Swagger 配置.
+ * @author shawnLiang
  *
- * @author : frm
- * @date : Created in 2018/10/19 4:57 PM
  */
 @Configuration
 @EnableSwagger2
@@ -73,8 +71,7 @@ public class SwaggerConfig {
     @Bean
     public List<ApiKey> securitySchemes() {
         return Lists.newArrayList(
-                new ApiKey("用户验证信息", "Authorization", "header"),
-                new ApiKey("设备验证信息", "Security", "header")
+                new ApiKey("用户验证信息", "Authorization", "header")
         );
     }
 

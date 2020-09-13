@@ -21,6 +21,11 @@
             <artifactId>weather-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.shawnliang.weather</groupId>
+            <artifactId>weather-dao</artifactId>
+        </dependency>
+
         <!-- Mysql驱动包 -->
         <dependency>
             <groupId>mysql</groupId>
