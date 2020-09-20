@@ -1,4 +1,4 @@
-package com.shawnliang.weather.dao.req;
+package com.shawnliang.weather.common.model.req;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

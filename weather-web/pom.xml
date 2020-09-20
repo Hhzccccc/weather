@@ -18,7 +18,7 @@
 
         <dependency>
             <groupId>com.shawnliang.weather</groupId>
-            <artifactId>weather-core</artifactId>
+            <artifactId>weather-service</artifactId>
         </dependency>
 
         <dependency>

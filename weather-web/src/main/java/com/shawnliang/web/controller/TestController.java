@@ -2,9 +2,13 @@ package com.shawnliang.web.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.shawnliang.core.vo.ApiResponse;
+import com.shawnliang.service.service.AliWeatherThirdService;
+import com.shawnliang.weather.common.model.info.ali.AliWeatherBaseReqInfo;
+import com.shawnliang.weather.common.model.req.AUpdateReq;
+import com.shawnliang.weather.common.model.resp.ali.AliMojiConditionNowResp;
+import com.shawnliang.weather.common.model.resp.ali.AliMojiForecast15DaysResp;
 import com.shawnliang.weather.dao.convertor.AConvertor;
 import com.shawnliang.weather.dao.info.AInfo;
-import com.shawnliang.weather.dao.req.AUpdateReq;
 import com.shawnliang.weather.dao.weather_market.entity.A;
 import com.shawnliang.weather.dao.weather_market.repository.ARepository;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +35,25 @@ public class TestController {
 
     @Autowired
     private AConvertor aConvertor;
+
+    @Autowired
+    private AliWeatherThirdService aliWeatherThirdService;
+
+    @ApiOperation("now测试")
+    @GetMapping("/now")
+    public ApiResponse<AliMojiConditionNowResp> testNowResp() {
+        AliMojiConditionNowResp conditionNowResp = aliWeatherThirdService
+                .getConditionNowResp(AliWeatherBaseReqInfo.builder().cityCode(49).build());
+        return new ApiResponse<>(conditionNowResp);
+    }
+
+    @ApiOperation("15天测试")
+    @GetMapping("/15days")
+    public ApiResponse<AliMojiForecast15DaysResp> test15DaysResp() {
+        AliMojiForecast15DaysResp aliMojiForecast15DaysResp = aliWeatherThirdService
+                .getForecast15DaysResp(AliWeatherBaseReqInfo.builder().cityCode(49).build());
+        return new ApiResponse<>(aliMojiForecast15DaysResp);
+    }
 
     @ApiOperation("测试首页接口")
     @GetMapping("/index")

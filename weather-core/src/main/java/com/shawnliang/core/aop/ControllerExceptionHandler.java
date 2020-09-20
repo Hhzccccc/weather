@@ -2,7 +2,7 @@ package com.shawnliang.core.aop;
 
 import com.shawnliang.core.utils.ErrorCodeUtil;
 import com.shawnliang.core.vo.ApiResponse;
-import com.shawnliang.weather.common.model.CommonError;
+import com.shawnliang.weather.common.exception.CommonError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.BindException;

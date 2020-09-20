@@ -1,7 +1,5 @@
-package com.shawnliang.weather.common.exception.third;
+package com.shawnliang.weather.common.exception;
 
-import com.shawnliang.weather.common.exception.BaseException;
-import com.shawnliang.weather.common.model.IError;
 import lombok.Data;
 import lombok.ToString;
 
@@ -13,11 +11,15 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
-public class ThirdException extends BaseException {
+public class BusinessException extends BaseException {
 
     private static final long serialVersionUID = -2993688559843854361L;
 
-    public ThirdException(IError iError) {
+    public BusinessException(IError iError) {
         super(iError);
+    }
+
+    public BusinessException(IError iError, String msg) {
+        super(iError, msg);
     }
 }

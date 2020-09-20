@@ -1,7 +1,5 @@
 package com.shawnliang.weather.common.exception;
 
-import com.shawnliang.weather.common.model.CommonError;
-import com.shawnliang.weather.common.model.IError;
 import lombok.Data;
 
 import java.io.Serializable;

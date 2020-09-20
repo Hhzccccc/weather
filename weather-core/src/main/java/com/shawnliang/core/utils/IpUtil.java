@@ -1,4 +1,4 @@
-package com.shawnliang.weather.common.util;
+package com.shawnliang.core.utils;
 
 import lombok.extern.slf4j.Slf4j;
 

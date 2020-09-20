@@ -1,7 +1,7 @@
 package com.shawnliang.core.aop;
 
 import com.shawnliang.core.vo.ApiResponse;
-import com.shawnliang.weather.common.util.IpUtil;
+import com.shawnliang.core.utils.IpUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;

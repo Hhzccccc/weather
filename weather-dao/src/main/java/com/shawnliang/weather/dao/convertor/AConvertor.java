@@ -1,7 +1,7 @@
 package com.shawnliang.weather.dao.convertor;
 
 import com.shawnliang.weather.dao.info.AInfo;
-import com.shawnliang.weather.dao.req.AUpdateReq;
+import com.shawnliang.weather.common.model.req.AUpdateReq;
 import com.shawnliang.weather.dao.weather_market.entity.A;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

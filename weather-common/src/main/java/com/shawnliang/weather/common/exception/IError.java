@@ -1,4 +1,4 @@
-package com.shawnliang.weather.common.model;
+package com.shawnliang.weather.common.exception;
 
 /**
  * Description :   .
@@ -12,15 +12,12 @@ public interface IError {
      * 获取基础编号
      * @return .
      */
-    default int getBaseCode() {
-        return 1;
-    }
-
+    Integer getBaseCode();
     /**
      * 获取中间编号
      * @return .
      */
-    default int getMidNum() {
+    default Integer getMidNum() {
         return 1;
     }
 
@@ -28,7 +25,7 @@ public interface IError {
      * 获取系统编号
      * @return .
      */
-    default int getSystemNum() {
+    default Integer getSystemNum() {
         return 100;
     }
 
@@ -36,7 +33,7 @@ public interface IError {
      * 获取异常编号
      * @return .
      */
-    int getCode();
+    Integer getCode();
 
     /**
      * 获取异常描述

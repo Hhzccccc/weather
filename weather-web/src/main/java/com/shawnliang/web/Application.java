@@ -18,7 +18,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 public class Application {
 
     public static void main(String[] args) {
-        log.info("项目启动成功！");
         SpringApplication.run(Application.class);
     }
 }

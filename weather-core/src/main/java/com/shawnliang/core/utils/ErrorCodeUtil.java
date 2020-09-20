@@ -2,7 +2,7 @@ package com.shawnliang.core.utils;
 
 import com.shawnliang.core.vo.ApiResponse;
 import com.shawnliang.weather.common.exception.BaseException;
-import com.shawnliang.weather.common.model.IError;
+import com.shawnliang.weather.common.exception.IError;
 import org.apache.commons.lang3.StringUtils;
 
 /**

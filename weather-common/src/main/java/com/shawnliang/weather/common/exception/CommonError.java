@@ -1,6 +1,5 @@
-package com.shawnliang.weather.common.model;
+package com.shawnliang.weather.common.exception;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
@@ -9,7 +8,6 @@ import lombok.Getter;
  * @author : Phoebe
  * @date : Created in 2020/9/8
  */
-@AllArgsConstructor
 @Getter
 public enum CommonError implements IError {
 
@@ -21,7 +19,12 @@ public enum CommonError implements IError {
     SYSTEM_ERROR(999, "系统异常"),
     ;
 
-    private int baseCode;
+    CommonError(Integer baseCode, String desc) {
+        this.baseCode = baseCode;
+        this.desc = desc;
+    }
+
+    private Integer baseCode;
     private String desc;
 
     public int getLayerNum() {
@@ -29,17 +32,22 @@ public enum CommonError implements IError {
     }
 
     @Override
-    public int getSystemNum() {
+    public Integer getSystemNum() {
         return 101;
     }
 
     @Override
-    public int getCode() {
+    public Integer getCode() {
         return this.baseCode;
     }
 
     @Override
     public String getDesc() {
         return this.desc;
+    }
+
+    @Override
+    public Integer getBaseCode() {
+        return baseCode;
     }
 }
