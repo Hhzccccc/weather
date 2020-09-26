@@ -3,7 +3,6 @@ package com.shawnliang.service.service.impl;
 import com.alibaba.fastjson.JSONObject;
 import com.shawnliang.core.utils.BeanUtil;
 import com.shawnliang.core.utils.HttpUtil;
-import com.shawnliang.service.constant.ConstantUtils;
 import com.shawnliang.service.service.AliWeatherApiService;
 import com.shawnliang.service.service.AliWeatherThirdService;
 import com.shawnliang.weather.common.exception.BizErrorEnum;
@@ -17,12 +16,11 @@ import com.shawnliang.weather.common.model.resp.ali.AliMojiForecast15DaysResp;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiForecast24HoursResp;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiIndexResp;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiLimitResp;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 /**
@@ -35,46 +33,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class AliAliWeatherThirdServiceImpl implements AliWeatherThirdService {
 
-    /**
-     * 查询阿里的市况天气信息
-     * @return
-     */
-    public JSONObject getCondition() {
-        Map<String, Object> headers = new HashMap<>();
-        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-        headers.put(ConstantUtils.AUTHORIZATION, "APPCODE " + "7593492cf9cd4dc5a1dbf3b656cdbdc2");
-        //根据API的要求，定义相对应的Content-Type
-        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        Map<String, Object> bodys = new HashMap<>();
-        bodys.put("cityId", "49");
-        bodys.put("token", "008d2ad9197090c5dddc76f583616606");
-
-        JSONObject jsonObject = HttpUtil
-                .postRequest(StringUtils.join(ConstantUtils.ALI_WEATHER_HOST, ConstantUtils.ALI_WEATHER_24_HOURS)
-                , headers, bodys);
-        return jsonObject;
-    }
-
-    public JSONObject forecast15days() {
-        Map<String, Object> headers = new HashMap<>();
-        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
-        headers.put(ConstantUtils.AUTHORIZATION, "APPCODE " + "7593492cf9cd4dc5a1dbf3b656cdbdc2");
-        //根据API的要求，定义相对应的Content-Type
-        headers.put("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
-        Map<String, Object> bodys = new HashMap<>();
-        bodys.put("cityId", "49");
-        bodys.put("token", "f9f212e1996e79e0e602b08ea297ffb0");
-
-        JSONObject jsonObject = HttpUtil.postRequest(StringUtils.join(ConstantUtils.ALI_WEATHER_HOST, "/whapi/json/alicityweather/forecast15days")
-                , headers, bodys);
-        return jsonObject;
-    }
-
-
     @Autowired
     private AliWeatherApiService aliWeatherApiService;
 
     @Override
+    @Cacheable(cacheNames = "weather:nowCondition", key = "#p0.redisKey + #p0.cityCode")
     public AliMojiConditionNowResp getConditionNowResp(AliWeatherBaseReqInfo aliWeatherBaseReqInfo) {
         AliWeatherApiInfo conditionInfo = aliWeatherApiService.conditionNowInfo();
         Map<String, Object> headerMap = buildAliCommonHeader(

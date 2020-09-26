@@ -21,15 +21,17 @@
             <artifactId>weather-service</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.shawnliang.weather</groupId>
-            <artifactId>weather-dao</artifactId>
-        </dependency>
-
         <!-- Mysql驱动包 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <!-- Spring Boot: 测试工具 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>

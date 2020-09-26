@@ -28,10 +28,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!--mybatis-plus -->
+        <!-- redis 缓存操作 -->
         <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
         <!-- SpringBoot 拦截器 -->

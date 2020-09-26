@@ -7,8 +7,6 @@ import com.shawnliang.weather.common.model.info.ali.AliWeatherBaseReqInfo;
 import com.shawnliang.weather.common.model.req.AUpdateReq;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiConditionNowResp;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiForecast15DaysResp;
-import com.shawnliang.weather.dao.convertor.AConvertor;
-import com.shawnliang.weather.dao.info.AInfo;
 import com.shawnliang.weather.dao.weather_market.entity.A;
 import com.shawnliang.weather.dao.weather_market.repository.ARepository;
 import io.swagger.annotations.ApiOperation;
@@ -33,8 +31,6 @@ public class TestController {
     @Autowired
     private ARepository aRepository;
 
-    @Autowired
-    private AConvertor aConvertor;
 
     @Autowired
     private AliWeatherThirdService aliWeatherThirdService;
@@ -90,17 +86,4 @@ public class TestController {
         aRepository.updateById(a);
         return new ApiResponse();
     }
-
-    @PostMapping("/convert")
-    @ApiOperation("转换A")
-    public ApiResponse convertTest(@Validated @RequestBody AUpdateReq aUpdateReq) {
-        AInfo aInfo = aConvertor.reqToInfo(aUpdateReq);
-        log.info("aInfo {}", aInfo);
-
-        A a = aConvertor.infoToDo(aInfo);
-        log.info("aDo {}", a);
-
-        return new ApiResponse();
-    }
-
 }

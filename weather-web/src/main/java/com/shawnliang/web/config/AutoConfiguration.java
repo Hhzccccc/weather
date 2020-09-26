@@ -17,6 +17,6 @@ import org.springframework.context.annotation.Import;
         ControllerExceptionHandler.class
         , ControllerInterceptor.class
 })
-@ComponentScan({"com.shawnliang.weather.dao", "com.shawnliang.service"})
+@ComponentScan({"com.shawnliang.weather.dao", "com.shawnliang.service", "com.shawnliang.core"})
 public class AutoConfiguration {
 }
