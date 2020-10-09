@@ -1,5 +1,7 @@
 package com.shawnliang.weather.common.model.resp.ali;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
@@ -13,6 +15,7 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
+@ApiModel
 public class AliMojiForecast24HoursResp extends AliMojiWeatherBaseResp {
 
     private static final long serialVersionUID = 6682848519327330744L;
@@ -26,6 +29,7 @@ public class AliMojiForecast24HoursResp extends AliMojiWeatherBaseResp {
     private DataBean data;
 
     @Data
+    @ApiModel
     public static class DataBean implements Serializable {
 
         private static final long serialVersionUID = 1259769497750045114L;
@@ -39,36 +43,61 @@ public class AliMojiForecast24HoursResp extends AliMojiWeatherBaseResp {
         private List<HourlyBean> hourly;
 
         @Data
+        @ApiModel
         public static class HourlyBean implements Serializable {
 
             private static final long serialVersionUID = 6548804432816636400L;
 
             /**
-             * condition : 阴
-             * date : 2016-09-01
-             * hour : 20
-             * humidity : 51
-             * iconDay : 2
-             * iconNight : 2
-             * pressure : 0
-             * realFeel : 21
-             * temp : 23
-             * uvi : 0
-             * windDir : N
-             * windSpeed : 12
+             {
+             "condition": "多云",
+             "date": "2020-10-08",
+             "hour": "21",
+             "humidity": "70",
+             "iconDay": "1",
+             "iconNight": "31",
+             "pressure": "1022",
+             "realFeel": "20",
+             "temp": "19",
+             "uvi": "1",
+             "windDir": "N",
+             "windSpeed": "22.32"
+             },
              */
-
+            @ApiModelProperty(value = "天气状况", example = "晴")
             private String condition;
+
+            @ApiModelProperty(value = "预报日期", example = "2020-10-08")
             private String date;
+
+            @ApiModelProperty(value = "小时", example = "20")
             private String hour;
+
+            @ApiModelProperty(value = "湿度", example = "70")
             private String humidity;
+
+            @ApiModelProperty(value = "白天icon", example = "20")
             private String iconDay;
+
+            @ApiModelProperty(value = "夜间icon", example = "20")
             private String iconNight;
+
+            @ApiModelProperty(value = "气压", example = "1022")
             private String pressure;
+
+            @ApiModelProperty(value = "体感温度", example = "20")
             private String realFeel;
+
+            @ApiModelProperty(value = "实时温度", example = "25")
             private String temp;
+
+            @ApiModelProperty(value = "紫外线强度", example = "1")
             private String uvi;
+
+            @ApiModelProperty(value = "风向", example = "NNE")
             private String windDir;
+
+            @ApiModelProperty(value = "风速", example = "11.88")
             private String windSpeed;
         }
     }

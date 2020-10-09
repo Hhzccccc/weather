@@ -5,6 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * Description :   .
@@ -15,6 +16,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootApplication(exclude = { DataSourceAutoConfiguration.class })
 @MapperScan("com.shawnliang.weather.dao.weather_market.mapper")
 @EnableCaching
+@EnableAsync
 public class Application {
 
     public static void main(String[] args) {

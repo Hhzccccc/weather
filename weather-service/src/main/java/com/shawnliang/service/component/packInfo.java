@@ -1,4 +1,4 @@
-package com.shawnliang.service.compont;
+package com.shawnliang.service.component;
 
 /**
  * Description :   .

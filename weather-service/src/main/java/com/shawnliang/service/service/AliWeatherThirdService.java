@@ -36,33 +36,43 @@ public interface AliWeatherThirdService extends WeatherThirdService {
 
     /**
      * 获取24小时天气
-     * @return
+     * @return .
+     * @param aliWeatherBaseReqInfo .
      */
-    AliMojiForecast24HoursResp getForecast24HoursResp();
+    AliMojiForecast24HoursResp getForecast24HoursResp(
+            AliWeatherBaseReqInfo aliWeatherBaseReqInfo);
 
     /**
      *提供未来5天AQI数据
      * @return .
+     * @param aliWeatherBaseReqInfo
      */
-    AliMojiAqiForecast5Resp getAqiForecast5DaysResp();
+    AliMojiAqiForecast5Resp getAqiForecast5DaysResp(
+            AliWeatherBaseReqInfo aliWeatherBaseReqInfo);
 
     /**
      * 提供各地限行数据
      * @return .
+     * @param aliWeatherBaseReqInfo
      */
-    AliMojiLimitResp getLimitResp();
+    AliMojiLimitResp getLimitResp(
+            AliWeatherBaseReqInfo aliWeatherBaseReqInfo);
 
     /**
      * 获取空气质量数据
      * @return
+     * @param aliWeatherBaseReqInfo
      */
-    AliMojiAqiResp getAqiResp();
+    AliMojiAqiResp getAqiResp(
+            AliWeatherBaseReqInfo aliWeatherBaseReqInfo);
 
     /**
      * 获取各项生活指数数据
      * @return
+     * @param aliWeatherBaseReqInfo
      */
-    AliMojiIndexResp getIndexResp();
+    AliMojiIndexResp getIndexResp(
+            AliWeatherBaseReqInfo aliWeatherBaseReqInfo);
 
     /**
      * 生成公共头请求参数

@@ -1,5 +1,7 @@
 package com.shawnliang.weather.common.model.resp.ali;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.ToString;
@@ -44,6 +46,7 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
+@ApiModel
 public class AliMojiConditionNowResp extends AliMojiWeatherBaseResp {
 
     private static final long serialVersionUID = 1717343741011457065L;
@@ -89,21 +92,49 @@ public class AliMojiConditionNowResp extends AliMojiWeatherBaseResp {
              * windLevel : 2
              * windSpeed : 2.45
              */
-
+            @ApiModelProperty(value = "实时天气", example = "晴")
             private String condition;
+
+            @ApiModelProperty(value = "实时天气id", example = "82")
             private String conditionId;
+
+            @ApiModelProperty(value = "湿度", example = "70")
             private String humidity;
+
+            @ApiModelProperty(value = "天气icon", example = "31")
             private String icon;
+
+            @ApiModelProperty(value = "气压", example = "1024")
             private String pressure;
+
+            @ApiModelProperty(value = "体感温度", example = "20")
             private String realFeel;
+
+            @ApiModelProperty(value = "日出时间", example = "2020-10-08 05:54:00")
             private String sunRise;
+
+            @ApiModelProperty(value = "日落时间", example = "2020-10-08 17:33:00")
             private String sunSet;
+
+            @ApiModelProperty(value = "温度", example = "19")
             private String temp;
+
+            @ApiModelProperty(value = "一句话提示", example = "略微偏凉，还是蛮舒适的。")
             private String tips;
+
+            @ApiModelProperty(value = "发布时间", example = "2020-10-08 21:15:08")
             private String updatetime;
+
+            @ApiModelProperty(value = "紫外线强度", example = "1")
             private String uvi;
+
+            @ApiModelProperty(value = "风向", example = "北风")
             private String windDir;
+
+            @ApiModelProperty(value = "风速", example = "4")
             private String windLevel;
+
+            @ApiModelProperty(value = "风速", example = "6.2")
             private String windSpeed;
         }
     }

@@ -51,7 +51,7 @@ public class CodeGenerator {
                 setIdType(IdType.AUTO)
                 .setBaseResultMap(true)
                 .setOpen(false)
-                .setServiceImplName("%sRepository")
+                .setServiceImplName("%sDoRepository")
                 .setEntityName("%sDo")
         ;
         mpg.setGlobalConfig(gc);
@@ -127,7 +127,7 @@ public class CodeGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
-        dsc.setUrl("jdbc:mysql://49.235.201.167:3306/test_gen?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://49.235.201.167:3306/market_weather?useUnicode=true&useSSL=false&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
         dsc.setPassword("abc123456");
@@ -140,6 +140,8 @@ public class CodeGenerator {
         strategy.setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
+        strategy.setEntityBuilderModel(true);
+        strategy.setInclude("biz_focus");
         mpg.setStrategy(strategy);
 
         mpg.execute();

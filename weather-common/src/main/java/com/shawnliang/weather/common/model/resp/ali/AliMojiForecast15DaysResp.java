@@ -1,5 +1,7 @@
 package com.shawnliang.weather.common.model.resp.ali;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
 import java.util.List;
 import lombok.Data;
@@ -13,6 +15,7 @@ import lombok.ToString;
  */
 @Data
 @ToString(callSuper = true)
+@ApiModel
 public class AliMojiForecast15DaysResp extends AliMojiWeatherBaseResp {
 
     private static final long serialVersionUID = 2403849187741672550L;
@@ -25,6 +28,7 @@ public class AliMojiForecast15DaysResp extends AliMojiWeatherBaseResp {
     private DataBean data;
 
     @Data
+    @ApiModel
     public static class DataBean implements Serializable {
 
         private static final long serialVersionUID = 1592280910217500544L;
@@ -56,6 +60,7 @@ public class AliMojiForecast15DaysResp extends AliMojiWeatherBaseResp {
         }
 
         @Data
+        @ApiModel
         public static class ForecastBean implements Serializable {
 
             private static final long serialVersionUID = 1649596144315557896L;
@@ -81,25 +86,61 @@ public class AliMojiForecast15DaysResp extends AliMojiWeatherBaseResp {
              * windSpeedDay : 5.0
              * windSpeedNight : 5.0
              */
-
+            @ApiModelProperty(value = "白天天气", example = "少云")
             private String conditionDay;
+
+            @ApiModelProperty(value = "白天天气id", example = "2")
             private String conditionIdDay;
+
+            @ApiModelProperty(value = "夜间天气id", example = "1")
             private String conditionIdNight;
+
+            @ApiModelProperty(value = "夜间天气", example = "多云")
             private String conditionNight;
+
+            @ApiModelProperty(value = "月相", example = "WaningGibbous")
             private String moonphase;
+
+            @ApiModelProperty(value = "月出", example = "2020-10-07 20:54:00")
             private String moonrise;
+
+            @ApiModelProperty(value = "月落", example = "2020-10-07 10:22:00")
             private String moonset;
+
+            @ApiModelProperty(value = "预报日期", example = "2020-10-07")
             private String predictDate;
+
+            @ApiModelProperty(value = "日出", example = "2020-10-07 05:54:00")
             private String sunrise;
+
+            @ApiModelProperty(value = "日落", example = "2020-10-07 17:34:00")
             private String sunset;
+
+            @ApiModelProperty(value = "白天温度", example = "14")
             private String tempDay;
+
+            @ApiModelProperty(value = "夜间温度", example = "11")
             private String tempNight;
+
+            @ApiModelProperty(value = "更新时间", example = "2020-10-07 23:06:00")
             private String updatetime;
+
+            @ApiModelProperty(value = "白天风向", example = "东北风")
             private String windDirDay;
+
+            @ApiModelProperty(value = "夜间风向", example = "东风")
             private String windDirNight;
+
+            @ApiModelProperty(value = "白天风级", example = "2")
             private String windLevelDay;
+
+            @ApiModelProperty(value = "夜间风向", example = "1")
             private String windLevelNight;
+
+            @ApiModelProperty(value = "白天风速", example = "0.9")
             private String windSpeedDay;
+
+            @ApiModelProperty(value = "夜间风速", example = "2.2")
             private String windSpeedNight;
         }
     }

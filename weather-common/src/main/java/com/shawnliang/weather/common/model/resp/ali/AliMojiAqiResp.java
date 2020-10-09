@@ -1,10 +1,8 @@
 package com.shawnliang.weather.common.model.resp.ali;
 
-import lombok.Builder;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.ToString;
-
-import java.io.Serializable;
 
 /**
  * Description :  阿里墨迹——空气质量响应体 .
@@ -30,7 +28,6 @@ import java.io.Serializable;
  * @date : Created in 2020/9/20
  */
 @Data
-@Builder
 @ToString(callSuper = true)
 public class AliMojiAqiResp extends AliMojiWeatherBaseResp {
 
