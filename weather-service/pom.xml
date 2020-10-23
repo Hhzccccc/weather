@@ -5,13 +5,12 @@
     <parent>
         <artifactId>market-weather</artifactId>
         <groupId>com.shawnliang.weather</groupId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>weather-service</artifactId>
     <description>核心业务层</description>
-    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -19,5 +18,15 @@
             <artifactId>weather-core</artifactId>
         </dependency>
     </dependencies>
+
+<!--    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+            </plugin>
+        </plugins>
+    </build>-->
 
 </project>

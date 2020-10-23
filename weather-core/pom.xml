@@ -12,8 +12,6 @@
     <artifactId>weather-core</artifactId>
     <description>核心包</description>
 
-    <packaging>jar</packaging>
-
     <dependencies>
 
         <!-- Spring框架基本的核心工具 -->
@@ -77,17 +75,4 @@
         </dependency>
 
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
