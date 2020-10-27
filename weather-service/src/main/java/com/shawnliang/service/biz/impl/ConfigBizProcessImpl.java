@@ -30,7 +30,6 @@ public class ConfigBizProcessImpl implements ConfigBizProcess {
     @Override
     public LocationResp location(AliWeatherBaseReq aliWeatherBaseReq) {
         LocationResp locationResp = new LocationResp();
-        locationResp.setCityName("北京市");
         locationResp.setDistrictName("朝阳区");
 
         BaiDuGeoInfo baiDuGeoInfo = BaiDuMapUtil
@@ -38,7 +37,6 @@ public class ConfigBizProcessImpl implements ConfigBizProcess {
         if (!Objects.isNull(baiDuGeoInfo) && !Objects.isNull(baiDuGeoInfo.getAddressComponent())) {
             addressComponent addressComponent = baiDuGeoInfo.getAddressComponent();
             if (addressComponent != null) {
-                locationResp.setCityName(addressComponent.getCity());
                 locationResp.setDistrictName(addressComponent.getDistrict());
             }
         } else {
