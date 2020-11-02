@@ -1,4 +1,4 @@
-package com.shawnliang.service.component;
+package com.shawnliang.core.component;
 
 import com.google.common.collect.Lists;
 import com.shawnliang.weather.common.model.enums.WeatherAqiEnum;

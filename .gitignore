@@ -8,7 +8,7 @@
 .DS_Store
 application-loc.properties
 application-dev.properties
-
+*.log
 .metadata
 bin/
 tmp/

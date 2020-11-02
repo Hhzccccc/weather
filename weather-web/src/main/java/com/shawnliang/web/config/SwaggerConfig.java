@@ -2,27 +2,30 @@ package com.shawnliang.web.config;
 
 import com.github.xiaoymin.swaggerbootstrapui.annotations.EnableSwaggerBootstrapUI;
 import com.google.common.collect.Lists;
+import com.shawnliang.weather.common.model.enums.RequestInfoEnum;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.ParameterBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.ModelRef;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ApiKey;
 import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.Parameter;
 import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author shawnLiang
@@ -115,6 +118,28 @@ public class SwaggerConfig {
     }
 
     /**
+     * 全局通用参数
+     *
+     * @return 全局通用参数
+     */
+    private List<Parameter> globalParameters() {
+        List<Parameter> parameters = new ArrayList<>();
+        parameters.add(new ParameterBuilder()
+                .name(RequestInfoEnum.SIGNATURE.getName()).description(RequestInfoEnum.SIGNATURE.getDesc())
+                .modelRef(new ModelRef("string")).parameterType("header")
+                .required(true).build());
+        parameters.add(new ParameterBuilder()
+                .name(RequestInfoEnum.TIMESTAMP.getName()).description(RequestInfoEnum.TIMESTAMP.getDesc())
+                .modelRef(new ModelRef("string")).parameterType("header")
+                .required(true).build());
+        parameters.add(new ParameterBuilder()
+                .name(RequestInfoEnum.RANDOM_STR.getName()).description(RequestInfoEnum.RANDOM_STR.getDesc())
+                .modelRef(new ModelRef("string")).parameterType("header")
+                .required(true).build());
+        return parameters;
+    }
+
+    /**
      * Api 接口
      *
      * @return .
@@ -134,6 +159,7 @@ public class SwaggerConfig {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(securitySchemes())
+                .globalOperationParameters(globalParameters())
                 .securityContexts(securityContexts());
     }
 

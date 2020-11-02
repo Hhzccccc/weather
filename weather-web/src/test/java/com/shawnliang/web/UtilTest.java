@@ -26,7 +26,7 @@ public class UtilTest extends ApplicationTest {
     @Autowired
     private CityConfigDoRepository cityConfigDoRepository;
 
-    @Test
+    //@Test
     public void initSQLTest() {
         File file = new File("D:\\生活\\天气\\【墨迹天气专业版】API接口相关材料\\【墨迹天气专业版】API接口相关材料\\a.xlsx");
         ExcelReader reader = ExcelUtil.getReader(file);

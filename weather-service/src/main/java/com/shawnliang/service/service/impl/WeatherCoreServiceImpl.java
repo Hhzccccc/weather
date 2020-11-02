@@ -3,7 +3,7 @@ package com.shawnliang.service.service.impl;
 import com.google.common.collect.Sets;
 import com.shawnliang.core.utils.BeanUtil;
 import com.shawnliang.core.utils.TimeUtil;
-import com.shawnliang.service.component.WeatherConvertComponent;
+import com.shawnliang.core.component.WeatherConvertComponent;
 import com.shawnliang.service.service.AliWeatherThirdService;
 import com.shawnliang.service.service.WeatherCoreService;
 import com.shawnliang.weather.common.model.info.ali.AliWeatherBaseReqInfo;
