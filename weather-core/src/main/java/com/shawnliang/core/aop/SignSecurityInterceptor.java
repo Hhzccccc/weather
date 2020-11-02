@@ -28,7 +28,6 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -69,7 +68,7 @@ public class SignSecurityInterceptor {
             throw new BusinessException(CommonError.COMMON_BIZ_ERROR, "请求无效！");
         }
 
-        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        // MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Map<Object, Object> data = new HashMap<>(8);
         data.put(RequestInfoEnum.TIMESTAMP.getName(), timestamp);
         data.put(RequestInfoEnum.RANDOM_STR.getName(), randomStr);
@@ -77,8 +76,8 @@ public class SignSecurityInterceptor {
         LocalDateTime localDate = Instant.ofEpochMilli(Long.parseLong(timestamp))
                 .atZone(ZoneOffset.ofHours(8)).toLocalDateTime();
 
-        if (localDate.plus(1000 * 36, ChronoUnit.SECONDS).isBefore(LocalDateTime.now())) {
-            throw new BusinessException(CommonError.COMMON_BIZ_ERROR, "请求重复！");
+        if (localDate.plus(10, ChronoUnit.SECONDS).isBefore(LocalDateTime.now())) {
+            throw new BusinessException(CommonError.COMMON_BIZ_ERROR, "请求已过期！");
         }
 
         if (redisUtils.includeByBloomFilter(createBloomUtils(), RedisUtils.BLOOM_KEY, encrypt)) {

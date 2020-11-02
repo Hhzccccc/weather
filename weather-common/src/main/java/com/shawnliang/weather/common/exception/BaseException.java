@@ -3,6 +3,7 @@ package com.shawnliang.weather.common.exception;
 import lombok.Data;
 
 import java.io.Serializable;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Description :   .
@@ -88,6 +89,9 @@ public class BaseException extends RuntimeException implements Serializable {
         this.setBaseMsg(iError.getDesc());
         this.setMidNum(iError.getMidNum());
         this.setSystemNum(iError.getSystemNum());
+        int errCode = Integer.parseInt(
+                StringUtils.join(iError.getSystemNum(), iError.getMidNum(), iError.getBaseCode()));
+        this.setErrorCode(errCode);
     }
 
 }

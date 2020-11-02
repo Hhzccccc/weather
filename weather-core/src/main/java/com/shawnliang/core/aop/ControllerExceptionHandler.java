@@ -2,6 +2,7 @@ package com.shawnliang.core.aop;
 
 import com.shawnliang.core.utils.ErrorCodeUtil;
 import com.shawnliang.core.vo.ApiResponse;
+import com.shawnliang.weather.common.exception.BaseException;
 import com.shawnliang.weather.common.exception.CommonError;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -80,5 +81,19 @@ public class ControllerExceptionHandler {
         log.info("全局异常[ERROR]: {}", exception.getMessage());
         log.error("全局异常: ", exception);
         return ErrorCodeUtil.errorResponse();
+    }
+
+    /**
+     * 全局异常
+     *
+     * @param exception .
+     *
+     * @return .
+     */
+    @ExceptionHandler({BaseException.class})
+    public ApiResponse baseExceptionHandler(BaseException exception) {
+        log.info("业务异常[ERROR]: {}", exception.getMessage());
+        log.error("业务异常: ", exception);
+        return ErrorCodeUtil.errorResponse(exception);
     }
 }

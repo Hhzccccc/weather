@@ -19,6 +19,12 @@ import javax.crypto.spec.SecretKeySpec;
  */
 public class SecurityUtils {
 
+    /**
+     *
+     * @param data 要加密的数据
+     * @param appSecret app密钥
+     * @return
+     */
     public static String encryptData(Map<Object, Object> data, String appSecret) {
         Object[] key = data.keySet().toArray();
         Arrays.sort(key);
