@@ -1,8 +1,10 @@
 package com.shawnliang.core.utils;
 
+import com.google.common.collect.Maps;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -12,6 +14,23 @@ import org.apache.commons.lang3.StringUtils;
  * @date : Created in 2020/10/27
  */
 public class TimeUtil {
+
+    private static final Map<Integer, String> chineseMap = Maps.newConcurrentMap();
+
+    static {
+        chineseMap.put(1, "一");
+        chineseMap.put(2, "二");
+        chineseMap.put(3, "三");
+        chineseMap.put(4, "四");
+        chineseMap.put(5, "五");
+        chineseMap.put(6, "六");
+        chineseMap.put(7, "七");
+        chineseMap.put(8, "八");
+        chineseMap.put(9, "九");
+        chineseMap.put(10, "十");
+        chineseMap.put(11, "十一");
+        chineseMap.put(12, "十二");
+    }
 
     public static LocalDateTime formatTimeFromString(String timeStr, String formatter) {
         DateTimeFormatter df = DateTimeFormatter.ofPattern(formatter);
@@ -33,6 +52,25 @@ public class TimeUtil {
         return localDate.format(df);
     }
 
+    public static String toChineseDateString(String dateString) {
+        if (StringUtils.isBlank(dateString)) {
+            return dateString;
+        }
+
+        int index = StringUtils.indexOf(dateString, "月");
+        if (index - 1 < 0) {
+            return dateString;
+        }
+        String month = StringUtils.substring(dateString, 0, index - 1);
+        return StringUtils
+                .replaceOnce(dateString, month, chineseMap.get(Integer.parseInt(month)));
+
+    }
+
+    public static final String getMonthChinese(Integer monthValue) {
+        return chineseMap.get(monthValue);
+    }
+
 
     public static String getDateDesc(LocalDate date) {
         if (date == null) {
@@ -52,7 +90,7 @@ public class TimeUtil {
         }
     }
 
-    private static String getDayWeekDesc(LocalDate localDate) {
+    public static String getDayWeekDesc(LocalDate localDate) {
         int value = localDate.getDayOfWeek().getValue();
         if (value == 1) {
             return "周一";

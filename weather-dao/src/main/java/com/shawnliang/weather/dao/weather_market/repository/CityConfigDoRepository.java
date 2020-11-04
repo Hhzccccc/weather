@@ -27,19 +27,19 @@ public class CityConfigDoRepository extends ServiceImpl<CityConfigMapper, CityCo
         return this.baseMapper.selectOne(wrapper);
     }
 
-    public CityConfigDo getByProvinceAndCityLikeDistrict(String provinceName, String cityName, String districtName) {
+    public CityConfigDo getByCityName(String cityName) {
         LambdaQueryWrapper<CityConfigDo> wrapper = new QueryWrapper<CityConfigDo>().lambda()
-                .eq(CityConfigDo::getProvinceName, provinceName)
                 .eq(CityConfigDo::getCityName, cityName)
-                .like(CityConfigDo::getDistrictName, districtName)
                 .last("limit 1");
 
         return this.baseMapper.selectOne(wrapper);
     }
 
-    public CityConfigDo getByCityName(String cityName) {
+    public CityConfigDo getByProvinceAndCityLikeDistrict(String provinceName, String cityName, String districtName) {
         LambdaQueryWrapper<CityConfigDo> wrapper = new QueryWrapper<CityConfigDo>().lambda()
+                .eq(CityConfigDo::getProvinceName, provinceName)
                 .eq(CityConfigDo::getCityName, cityName)
+                .like(CityConfigDo::getDistrictName, districtName)
                 .last("limit 1");
 
         return this.baseMapper.selectOne(wrapper);

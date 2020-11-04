@@ -5,6 +5,7 @@ import com.shawnliang.service.biz.ConfigBizProcess;
 import com.shawnliang.weather.common.model.req.ali.AliWeatherBaseReq;
 import com.shawnliang.weather.common.model.resp.config.LocationResp;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class ConfigController {
     private ConfigBizProcess configBizProcess;
 
     @PostMapping("/location")
+    @ApiOperation("获取配置接口")
     public ApiResponse<LocationResp> location(@Validated @RequestBody AliWeatherBaseReq aliWeatherBaseReq) {
         return new ApiResponse<>(configBizProcess.location(aliWeatherBaseReq));
     }
