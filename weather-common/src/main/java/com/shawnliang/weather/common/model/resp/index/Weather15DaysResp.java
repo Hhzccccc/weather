@@ -53,6 +53,9 @@ public class Weather15DaysResp implements Serializable {
         @ApiModelProperty(value = "风向描述", example = "1-2级")
         private String windDesc;
 
+        @ApiModelProperty(value = "风向", example = "东北风")
+        private String windDirDay;
+
         @ApiModelProperty(value = "空气质量指数", example = "70")
         private String airValue;
 

@@ -45,8 +45,8 @@ public class UtilTest extends ApplicationTest {
 
             cityConfigDo.setCityId(Integer.valueOf(o.toString()));
             cityConfigDo.setDistrictName((String) o1);
-            cityConfigDo.setCityName((String) o2);
-            cityConfigDo.setProvinceName((String) o3);
+            cityConfigDo.setProvinceName((String) o2);
+            cityConfigDo.setCityName((String) o3);
             cityConfigDo.setLng(String.valueOf(o4));
             cityConfigDo.setLat(String.valueOf(o5));
             cityConfigDoList.add(cityConfigDo);

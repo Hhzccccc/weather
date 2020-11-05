@@ -3,6 +3,7 @@ package com.shawnliang.weather.common.model.resp.index;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.io.Serializable;
+import java.util.List;
 import lombok.Data;
 
 /**
@@ -40,5 +41,31 @@ public class WeatherConditionResp implements Serializable {
 
     @ApiModelProperty(value = "空气质量描述", example = "良")
     private String airDesc;
+
+    @ApiModelProperty(value = "今明两天天气详情")
+    private List<WeatherDetailResp> weatherDetailRespList;
+
+    @Data
+    @ApiModel("今明两天天气详情")
+    public static class WeatherDetailResp implements Serializable {
+
+        private static final long serialVersionUID = 4693042459167996377L;
+
+        @ApiModelProperty(value = "日期描述", example = "今天 | 明天")
+        private String dateDesc;
+
+        @ApiModelProperty(value = "最高温度", example = "25")
+        private Integer highTemp;
+
+        @ApiModelProperty(value = "最低温度", example = "18")
+        private Integer lowTemp;
+
+        @ApiModelProperty(value = "天气详情", example = "多云")
+        private String detailCondition;
+
+        @ApiModelProperty(value = "空气质量描述", example = "良")
+        private String detailAirDesc;
+
+    }
 
 }

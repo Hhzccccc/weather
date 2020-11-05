@@ -1,7 +1,6 @@
 package com.shawnliang.web.controller;
 
 import com.shawnliang.core.vo.ApiResponse;
-import com.shawnliang.core.annonation.Security;
 import com.shawnliang.service.biz.WeatherBizProcess;
 import com.shawnliang.weather.common.model.req.ali.AliWeatherBaseReq;
 import com.shawnliang.weather.common.model.resp.index.BaseWeatherResp;
@@ -27,7 +26,6 @@ public class WeatherV2Controller {
     private WeatherBizProcess weatherBizProcess;
 
     @PostMapping("/base")
-    @Security
     @ApiOperation(value = "基本天气数据展示")
     public ApiResponse<BaseWeatherResp> getBaseWeatherResp(@Validated @RequestBody
             AliWeatherBaseReq aliWeatherBaseReq) {
