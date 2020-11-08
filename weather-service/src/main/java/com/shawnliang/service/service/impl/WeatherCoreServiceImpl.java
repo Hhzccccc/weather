@@ -75,7 +75,10 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
         AliMojiForecast15DaysResp forecast15DaysResp = aliWeatherThirdService
                 .getForecast15DaysResp(aliWeatherBaseReqInfo);
 
-        return build15DaysResp(forecast15DaysResp);
+        AliMojiAqiForecast5Resp aqiForecast5DaysResp = aliWeatherThirdService
+                .getAqiForecast5DaysResp(aliWeatherBaseReqInfo);
+
+        return build15DaysResp(forecast15DaysResp, aqiForecast5DaysResp);
     }
 
     @Override
@@ -104,14 +107,19 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
      * @param forecast15DaysResp
      * @return
      */
-    private Weather15DaysResp build15DaysResp(AliMojiForecast15DaysResp forecast15DaysResp) {
+    private Weather15DaysResp build15DaysResp(AliMojiForecast15DaysResp forecast15DaysResp,
+            AliMojiAqiForecast5Resp aqiForecast5DaysResp) {
         Weather15DaysResp weather15DaysResp = new Weather15DaysResp();
 
-        List<Weather15InfoResp> weather15InfoRespList = Lists.newArrayList();
+        Map<String, AqiForecastBean> date5DaysForeCastMap = aqiForecast5DaysResp.getData().
+                getAqiForecast().stream().
+                collect(Collectors.toMap(AqiForecastBean::getDate, Function.identity()));
 
+        List<Weather15InfoResp> weather15InfoRespList = Lists.newArrayList();
+        ArrayList<Integer> temps = Lists.newArrayList();
         for (ForecastBean forecastBean : forecast15DaysResp.getData().getForecast()) {
-            ArrayList<Integer> temps = Lists.newArrayList();
-            log.info("日期是 ：{}", forecastBean.getPredictDate());
+
+            log.debug("日期是 ：{}", forecastBean.getPredictDate());
             Weather15InfoResp weather15InfoResp = BeanUtil
                     .copyPropertiesJson(forecastBean, Weather15InfoResp.class);
 
@@ -132,6 +140,13 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
 
             weather15InfoResp.setWindDesc(StringUtils.join(forecastBean.getWindLevelDay(), "级"));
 
+            AqiForecastBean aqi5DayBean = date5DaysForeCastMap.get(forecastBean.getPredictDate());
+            if (aqi5DayBean != null) {
+                weather15InfoResp.setAirValue(aqi5DayBean.getValue());
+                weather15InfoResp.setAirDesc(WeatherConvertComponent.getAqiDesc(aqi5DayBean.getValue()));
+            }
+
+            temps.clear();
             weather15InfoRespList.add(weather15InfoResp);
         }
         weather15DaysResp.setWeather15InfoRespList(weather15InfoRespList);
