@@ -18,10 +18,10 @@ public enum WeatherAqiEnum {
      */
     EXCELLENT("优"),
     GOOD("良"),
-    LIGHT("轻度污染"),
-    MID("中度污染"),
-    HEAVY("重度污染"),
-    SERIOUS("严重污染"),
+    LIGHT("轻度"),
+    MID("中度"),
+    HEAVY("重度"),
+    SERIOUS("严重"),
     BURST("爆表"),
     OTHER("其他"),
     ;

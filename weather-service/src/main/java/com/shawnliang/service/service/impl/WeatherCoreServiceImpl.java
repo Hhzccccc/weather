@@ -1,5 +1,6 @@
 package com.shawnliang.service.service.impl;
 
+import com.shawnliang.core.component.PropertiesComponent;
 import com.shawnliang.core.component.WeatherConvertComponent;
 import com.shawnliang.core.utils.BeanUtil;
 import com.shawnliang.core.utils.TimeUtil;
@@ -9,6 +10,7 @@ import com.shawnliang.weather.common.model.info.ali.AliWeatherBaseReqInfo;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiAqiForecast5Resp;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiAqiForecast5Resp.DataBean.AqiForecastBean;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiAqiResp;
+import com.shawnliang.weather.common.model.resp.ali.AliMojiCityBean;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiConditionNowResp;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiConditionNowResp.DataBean.ConditionBean;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiForecast15DaysResp;
@@ -52,6 +54,9 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
 
     @Autowired
     private AliWeatherThirdService aliWeatherThirdService;
+
+    @Autowired
+    private PropertiesComponent propertiesComponent;
 
     @Override
     public BaseWeatherResp getBaseWeatherResp(AliWeatherBaseReqInfo aliWeatherBaseReqInfo) {
@@ -178,7 +183,10 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
         weatherConditionResp.setAirDesc(WeatherConvertComponent.getAqiDesc(Integer.valueOf(value)));
 
         // 获取今明两天的天气
-        List<WeatherDetailResp> weatherDetailRespList = getWeatherDetail(aqiForecast5DaysResp, forecast15DaysResp);
+        Map<String, AqiForecastBean> date5DaysForeCastMap = aqiForecast5DaysResp.getData().getAqiForecast().
+                stream().
+                collect(Collectors.toMap(AqiForecastBean::getDate, Function.identity()));
+        List<WeatherDetailResp> weatherDetailRespList = getWeatherDetail(date5DaysForeCastMap, forecast15DaysResp);
         weatherConditionResp.setWeatherDetailRespList(weatherDetailRespList);
         // 设置24小时天气
         ArrayList<Integer> dailyTemps = Lists.newArrayList();
@@ -193,6 +201,21 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
                     getWindLevelBySpeed(Double.parseDouble(hourlyBean.getWindSpeed())).toString());
 
             dailyTemps.add(Integer.valueOf(hourlyBean.getTemp()));
+
+            AqiForecastBean forecastBean = date5DaysForeCastMap.get(hourlyBean.getDate());
+            int airValue ;
+            if (forecastBean != null) {
+                airValue = forecastBean.getValue();
+            } else {
+                airValue = Integer.parseInt(value);
+            }
+            airValue = Math.max(airValue + this.getRandomAir(forecast24HoursResp.
+                    getData().getCity(), hourlyBean), 0);
+            String airDesc = WeatherConvertComponent.getAqiDesc(airValue);
+
+            entity.setAirValue(airValue);
+            entity.setAirDesc(airDesc);
+
             weather24HourInfoRespList.add(entity);
         }
         Collections.sort(dailyTemps);
@@ -216,11 +239,11 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
 
     /**
      * 获取今明两天的天气
-     * @param aqiForecast5DaysResp
+     * @param date5DaysForeCastMap
      * @param forecast15DaysResp
      * @return
      */
-    private List<WeatherDetailResp> getWeatherDetail(AliMojiAqiForecast5Resp aqiForecast5DaysResp,
+    private List<WeatherDetailResp> getWeatherDetail(Map<String, AqiForecastBean> date5DaysForeCastMap,
             AliMojiForecast15DaysResp forecast15DaysResp) {
         LocalDate now = LocalDate.now();
         String today = TimeUtil.formatFromDate(now, "yyyy-MM-dd");
@@ -230,10 +253,6 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
                         || tomorrow.equals(s.getPredictDate())).
                         sorted(Comparator.comparing(ForecastBean::getPredictDate)).
                         collect(Collectors.toList());
-        Map<String, AqiForecastBean> date5DaysForeCastMap = aqiForecast5DaysResp.getData().getAqiForecast().
-                stream().
-                collect(Collectors.toMap(AqiForecastBean::getDate, Function.identity()));
-
         List<WeatherDetailResp> respList = Lists.newArrayList();
         List<Integer> temps = Lists.newArrayList();
         for (ForecastBean day15Bean : beanList) {
@@ -256,5 +275,20 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
             temps.clear();
         }
             return respList;
+    }
+
+    /**
+     *
+     * @param city
+     * @param hourlyBean
+     * @return
+     */
+    private Integer getRandomAir(AliMojiCityBean city, HourlyBean hourlyBean) {
+        String key = StringUtils.join("random_",
+                city.getCityId(), "_", hourlyBean.getDate(),
+                "_", hourlyBean.getHour());
+
+        int code = Math.abs(key.hashCode()) % propertiesComponent.getRandom24HoursNum();
+        return code * (code % 2 == 1 ? 1 : -1);
     }
 }

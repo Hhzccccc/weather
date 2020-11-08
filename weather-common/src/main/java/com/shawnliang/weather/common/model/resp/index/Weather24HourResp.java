@@ -44,13 +44,16 @@ public class Weather24HourResp implements Serializable {
         @ApiModelProperty(value = "天气状况", example = "晴")
         private String condition;
 
-        //@ApiModelProperty(value = "实时天气id", example = "82")
-        //private String conditionId;
-
         @ApiModelProperty(value = "实时温度", example = "25")
         private String temp;
 
         @ApiModelProperty(value = "风级别", example = "1")
         private String windLevel;
+
+        @ApiModelProperty(value = "空气质量数值", example = "25")
+        private Integer airValue;
+
+        @ApiModelProperty(value = "实时温度", example = "25")
+        private String airDesc;
     }
 }
