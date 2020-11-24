@@ -39,7 +39,7 @@ public class ControllerInterceptor {
     @Around("pointcut()")
     public Object interceptor(ProceedingJoinPoint pjp) throws Throwable {
         MethodSignature methodSignature = ((MethodSignature) pjp.getSignature());
-
+        long start = System.currentTimeMillis();
         // 前置打印日志
         beforeLog(pjp);
 
@@ -50,7 +50,7 @@ public class ControllerInterceptor {
         }
 
         // 后置打印log
-        afterLog(pjp, result);
+        afterLog(pjp, result, start);
 
         return result;
     }
@@ -89,12 +89,14 @@ public class ControllerInterceptor {
      *
      * @param pjp
      */
-    private void afterLog(ProceedingJoinPoint pjp, Object result) {
+    private void afterLog(ProceedingJoinPoint pjp, Object result, long startMiles) {
         try {
             String className = pjp.getTarget().getClass().getSimpleName();
             String methodName = pjp.getSignature().getName();
-            log.info(StringUtils
-                    .join("method[", className, ".", methodName, "], 结果为: ", result));
+            log.info(StringUtils.join("method[",
+                    className, ".", methodName, "],"
+                            + " 结果为: "));
+            log.debug("AOP耗时 {}", System.currentTimeMillis() - startMiles);
         } catch (Exception e) {
             log.error("打印日志异常", e);
         }

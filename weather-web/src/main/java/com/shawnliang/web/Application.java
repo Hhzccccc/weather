@@ -1,5 +1,6 @@
 package com.shawnliang.web;
 
+import lombok.extern.slf4j.Slf4j;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,9 +18,11 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @MapperScan("com.shawnliang.weather.dao.weather_market.mapper")
 @EnableCaching
 @EnableAsync
+@Slf4j
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class);
+        log.info("启动完毕---");
     }
 }

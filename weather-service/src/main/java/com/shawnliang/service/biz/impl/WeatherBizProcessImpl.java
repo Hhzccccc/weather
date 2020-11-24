@@ -6,6 +6,8 @@ import com.shawnliang.service.service.BizFocusService;
 import com.shawnliang.service.service.CityConfigService;
 import com.shawnliang.service.service.WeatherCoreService;
 import com.shawnliang.service.util.BaiDuMapUtil;
+import com.shawnliang.weather.common.exception.BusinessException;
+import com.shawnliang.weather.common.exception.CommonError;
 import com.shawnliang.weather.common.model.enums.BizFocusEnum;
 import com.shawnliang.weather.common.model.info.ali.AliWeatherBaseReqInfo;
 import com.shawnliang.weather.common.model.info.baidu.BaiDuGeoInfo;
@@ -42,7 +44,12 @@ public class WeatherBizProcessImpl implements WeatherBizProcess {
 
     @Override
     public BaseWeatherResp getBaseWeatherResp(AliWeatherBaseReq aliWeatherBaseReq) {
-        return weatherCoreService.getBaseWeatherResp(genWeatherBaseReq(aliWeatherBaseReq));
+        try {
+            return weatherCoreService.getBaseWeatherRespAsync(genWeatherBaseReq(aliWeatherBaseReq));
+        } catch (Exception e) {
+           log.error("获取基本天气异常", e);
+           throw new BusinessException(CommonError.COMMON_BIZ_ERROR, "网络开小差了");
+        }
     }
 
     @Override

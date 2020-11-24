@@ -156,9 +156,9 @@ public class AliAliWeatherThirdServiceImpl implements AliWeatherThirdService {
      static <T> T postResultByAliApi(String url, Map<String, Object> header, Map<String, Object> body,
             Class<T> clazz) {
         JSONObject jsonResult = HttpUtil.postRequest(url, header, body);
-        if (Objects.isNull(jsonResult)) {
+         if (Objects.isNull(jsonResult)) {
             throw new BusinessException(BizErrorEnum.ALI_WEATHER_ERROR);
         }
-        return BeanUtil.copyPropertiesJson(jsonResult, clazz);
+         return BeanUtil.copyPropertiesJson(jsonResult, clazz);
     }
 }

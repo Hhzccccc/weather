@@ -1,12 +1,11 @@
 package com.shawnliang.core.utils;
 
-import lombok.extern.slf4j.Slf4j;
-
-import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import javax.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Description :   .
@@ -108,11 +107,7 @@ public class IpUtil {
      * @param request 请求信息
      */
     public static String getRequestIp(HttpServletRequest request) {
-        String ip = "";
-        if (request == null) {
-            return ip;
-        }
-
+        String ip = request.getRemoteAddr();
         try {
             for (String ipKey : IP_KEYS) {
                 if (request.getHeader(ipKey) == null) {
@@ -128,7 +123,6 @@ public class IpUtil {
                     return ip;
                 }
             }
-
             return ip;
         } catch (Exception e) {
             return "";

@@ -6,6 +6,8 @@ import com.shawnliang.core.utils.BeanUtil;
 import com.shawnliang.core.utils.TimeUtil;
 import com.shawnliang.service.service.AliWeatherThirdService;
 import com.shawnliang.service.service.WeatherCoreService;
+import com.shawnliang.weather.common.exception.BusinessException;
+import com.shawnliang.weather.common.exception.CommonError;
 import com.shawnliang.weather.common.model.info.ali.AliWeatherBaseReqInfo;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiAqiForecast5Resp;
 import com.shawnliang.weather.common.model.resp.ali.AliMojiAqiForecast5Resp.DataBean.AqiForecastBean;
@@ -34,12 +36,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.Future;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.compress.utils.Lists;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 /**
@@ -58,8 +63,14 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
     @Autowired
     private PropertiesComponent propertiesComponent;
 
+    @Autowired
+    private ThreadPoolTaskExecutor bizExecutor;
+
     @Override
     public BaseWeatherResp getBaseWeatherResp(AliWeatherBaseReqInfo aliWeatherBaseReqInfo) {
+        long start = System.currentTimeMillis();
+
+
         AliMojiConditionNowResp nowResp = aliWeatherThirdService
                 .getConditionNowResp(aliWeatherBaseReqInfo);
         AliMojiAqiResp aqiResp = aliWeatherThirdService
@@ -71,8 +82,65 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
         AliMojiForecast15DaysResp forecast15DaysResp = aliWeatherThirdService
                 .getForecast15DaysResp(aliWeatherBaseReqInfo);
 
+        log.info("网络请求时间" + (System.currentTimeMillis() -start));
         return buildBaseWeatherResp(nowResp, aqiResp, forecast24HoursResp,
                 aqiForecast5DaysResp, forecast15DaysResp);
+    }
+
+    @Override
+    public BaseWeatherResp getBaseWeatherRespAsync(AliWeatherBaseReqInfo aliWeatherBaseReqInfo)
+            throws Exception {
+        CountDownLatch countDownLatch = new CountDownLatch(5);
+        long start = System.currentTimeMillis();
+
+        Future<AliMojiConditionNowResp> nowRespFuture = bizExecutor.submit(() -> {
+            AliMojiConditionNowResp conditionNowResp = aliWeatherThirdService
+                    .getConditionNowResp(aliWeatherBaseReqInfo);
+            countDownLatch.countDown();
+
+            return conditionNowResp;
+        });
+
+        Future<AliMojiAqiResp> aqiRespFuture = bizExecutor.submit(() -> {
+            AliMojiAqiResp aqiResp = aliWeatherThirdService
+                    .getAqiResp(aliWeatherBaseReqInfo);
+            countDownLatch.countDown();
+
+            return aqiResp;
+        });
+
+        Future<AliMojiForecast24HoursResp> forecast24HoursRespFuture = bizExecutor.submit(() -> {
+            AliMojiForecast24HoursResp forecast24HoursResp = aliWeatherThirdService
+                    .getForecast24HoursResp(aliWeatherBaseReqInfo);
+            countDownLatch.countDown();
+
+            return forecast24HoursResp;
+        });
+
+        Future<AliMojiAqiForecast5Resp> aqiForecast5DaysRespFuture = bizExecutor.submit(() -> {
+            AliMojiAqiForecast5Resp aqiForecast5DaysResp = aliWeatherThirdService
+                    .getAqiForecast5DaysResp(aliWeatherBaseReqInfo);
+            countDownLatch.countDown();
+
+            return aqiForecast5DaysResp;
+        });
+
+        Future<AliMojiForecast15DaysResp> forecast15DaysRespFuture = bizExecutor.submit(() -> {
+            AliMojiForecast15DaysResp forecast15DaysResp = aliWeatherThirdService
+                    .getForecast15DaysResp(aliWeatherBaseReqInfo);
+            countDownLatch.countDown();
+
+            return forecast15DaysResp;
+        });
+
+        countDownLatch.await();
+        if (nowRespFuture.isDone() && aqiRespFuture.isDone() && forecast24HoursRespFuture.isDone()
+            && aqiForecast5DaysRespFuture.isDone() && forecast15DaysRespFuture.isDone()) {
+            log.info("网络请求时间 {}", System.currentTimeMillis() - start);
+            return buildBaseWeatherResp(nowRespFuture.get(), aqiRespFuture.get(), forecast24HoursRespFuture.get(),
+                    aqiForecast5DaysRespFuture.get(), forecast15DaysRespFuture.get());
+        }
+        throw new BusinessException(CommonError.COMMON_BIZ_ERROR, "网络开小差了");
     }
 
     @Override
@@ -167,6 +235,7 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
     private BaseWeatherResp buildBaseWeatherResp(AliMojiConditionNowResp nowResp,
             AliMojiAqiResp aqiResp, AliMojiForecast24HoursResp forecast24HoursResp,
             AliMojiAqiForecast5Resp aqiForecast5DaysResp, AliMojiForecast15DaysResp forecast15DaysResp) {
+        long start = System.currentTimeMillis();
         ConditionBean condition = nowResp.getData().getCondition();
         BaseWeatherResp baseWeatherResp = new BaseWeatherResp();
         Weather24HourResp weather24HourResp = new Weather24HourResp();
@@ -234,6 +303,7 @@ public class WeatherCoreServiceImpl implements WeatherCoreService {
         weather24HourResp.setSunSet(TimeUtil.formatFromDateTime(sunSetTime, "HH:mm"));
 
         baseWeatherResp.setConditionResp(weatherConditionResp);
+        log.info("数据结束封装时间 " + (System.currentTimeMillis() - start));
         return baseWeatherResp;
     }
 

@@ -305,7 +305,7 @@ public class HttpUtil {
         if (httpClient == null) {
             initHttpClient();
         }
-
+        long startMiles = System.currentTimeMillis();
         log.info("doRequest请求参数：{}", request);
 
         // 执行请求
@@ -316,7 +316,8 @@ public class HttpUtil {
             }
 
             String result = response.body().string();
-            log.info("doRequest请求结果jsonObject：{}", result);
+            log.info("doRequest请求结果jsonObject：{}, 耗时：{}ms", result,
+                    System.currentTimeMillis() - startMiles);
 
             return JSONObject.parseObject(result);
         } catch (IOException e) {

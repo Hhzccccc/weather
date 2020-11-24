@@ -20,6 +20,9 @@ public interface WeatherCoreService {
      */
     BaseWeatherResp getBaseWeatherResp(AliWeatherBaseReqInfo aliWeatherBaseReqInfo);
 
+    BaseWeatherResp getBaseWeatherRespAsync(AliWeatherBaseReqInfo aliWeatherBaseReqInfo)
+            throws Exception;
+
     /**
      * 15天天气预报
      * @param genWeatherBaseReq

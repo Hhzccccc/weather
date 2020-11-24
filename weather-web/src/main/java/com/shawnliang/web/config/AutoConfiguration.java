@@ -3,6 +3,7 @@ package com.shawnliang.web.config;
 import com.shawnliang.core.aop.ControllerExceptionHandler;
 import com.shawnliang.core.aop.ControllerInterceptor;
 import com.shawnliang.core.aop.SignSecurityInterceptor;
+import com.shawnliang.weather.common.filter.GlobalFilter;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -17,7 +18,7 @@ import org.springframework.context.annotation.Import;
 @Import({
         ControllerExceptionHandler.class
         , ControllerInterceptor.class,
-        SignSecurityInterceptor.class
+        SignSecurityInterceptor.class, GlobalFilter.class
 })
 @ComponentScan({"com.shawnliang.weather.dao", "com.shawnliang.service", "com.shawnliang.core"})
 public class AutoConfiguration {

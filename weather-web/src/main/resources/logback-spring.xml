@@ -209,18 +209,15 @@
     <!-- 测试环境-->
     <springProfile name="test">
         <root level="info">
-            <appender-ref ref="CatAppender"/>
             <appender-ref ref="INFO_FILE"/>
             <appender-ref ref="WARN_FILE"/>
             <appender-ref ref="ERROR_FILE"/>
         </root>
         <root level="error">
-            <appender-ref ref="CatAppender"/>
             <appender-ref ref="WARN_FILE"/>
             <appender-ref ref="ERROR_FILE"/>
         </root>
         <root level="debug">
-            <appender-ref ref="CatAppender"/>
             <appender-ref ref="DEBUG_FILE"/>
             <appender-ref ref="INFO_FILE"/>
             <appender-ref ref="WARN_FILE"/>
@@ -231,18 +228,15 @@
     <!-- 开发环境-->
     <springProfile name="dev">
         <root level="info">
-            <appender-ref ref="CatAppender"/>
             <appender-ref ref="INFO_FILE"/>
             <appender-ref ref="WARN_FILE"/>
             <appender-ref ref="ERROR_FILE"/>
         </root>
         <root level="error">
-            <appender-ref ref="CatAppender"/>
             <appender-ref ref="WARN_FILE"/>
             <appender-ref ref="ERROR_FILE"/>
         </root>
         <root level="debug">
-            <appender-ref ref="CatAppender"/>
             <appender-ref ref="DEBUG_FILE"/>
             <appender-ref ref="INFO_FILE"/>
             <appender-ref ref="WARN_FILE"/>
