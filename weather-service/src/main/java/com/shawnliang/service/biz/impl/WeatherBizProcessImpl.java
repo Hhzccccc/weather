@@ -2,6 +2,7 @@ package com.shawnliang.service.biz.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.shawnliang.service.biz.WeatherBizProcess;
+import com.shawnliang.service.constant.ConstantUtils;
 import com.shawnliang.service.service.BizFocusService;
 import com.shawnliang.service.service.CityConfigService;
 import com.shawnliang.service.service.WeatherCoreService;
@@ -42,8 +43,30 @@ public class WeatherBizProcessImpl implements WeatherBizProcess {
     @Autowired
     private CityConfigService cityConfigService;
 
+    private void commonValidate(AliWeatherBaseReq aliWeatherBaseReq) {
+        String lat = aliWeatherBaseReq.getLat();
+        String lng = aliWeatherBaseReq.getLng();
+
+        try {
+            Double latDouble = Double.parseDouble(lat);
+            Double lngDouble = Double.parseDouble(lng);
+
+            if (latDouble.equals(0.0)|| lngDouble.equals(0.0)) {
+                throw new BusinessException(CommonError.NOT_OPEN_LOCATION);
+            }
+        } catch (Exception e) {
+
+        }
+
+        if (Objects.equals(ConstantUtils.ZERO_PARAMS, lat) || Objects.equals(lng, ConstantUtils.ZERO_PARAMS)) {
+            throw new BusinessException(CommonError.NOT_OPEN_LOCATION);
+        }
+    }
+
     @Override
     public BaseWeatherResp getBaseWeatherResp(AliWeatherBaseReq aliWeatherBaseReq) {
+        commonValidate(aliWeatherBaseReq);
+
         try {
             return weatherCoreService.getBaseWeatherRespAsync(genWeatherBaseReq(aliWeatherBaseReq));
         } catch (Exception e) {
@@ -54,15 +77,19 @@ public class WeatherBizProcessImpl implements WeatherBizProcess {
 
     @Override
     public Weather15DaysResp get15DaysWeatherResp(AliWeatherBaseReq aliWeatherBaseReq) {
+        commonValidate(aliWeatherBaseReq);
         return weatherCoreService.get15DaysWeatherResp(genWeatherBaseReq(aliWeatherBaseReq));
     }
 
     @Override
     public WeatherLifeResp getWeatherLife(AliWeatherBaseReq aliWeatherBaseReq) {
+        commonValidate(aliWeatherBaseReq);
         return weatherCoreService.getWeatherLife(genWeatherBaseReq(aliWeatherBaseReq));
     }
 
     private AliWeatherBaseReqInfo genWeatherBaseReq(AliWeatherBaseReq aliWeatherBaseReq) {
+        commonValidate(aliWeatherBaseReq);
+
         AliWeatherBaseReqInfo aliWeatherBaseReqInfo = new AliWeatherBaseReqInfo();
 
         BaiDuGeoInfo baiDuGeoInfo = BaiDuMapUtil

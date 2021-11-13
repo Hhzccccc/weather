@@ -16,6 +16,7 @@ public enum CommonError implements IError {
      */
     COMMON_BIZ_ERROR(101, "通用异常"),
     PARAM_ERROR(102, "参数错误"),
+    NOT_OPEN_LOCATION(103, "请打开手机定位, 才能获取天气信息"),
     SYSTEM_ERROR(999, "系统异常"),
     ;
 

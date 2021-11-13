@@ -22,4 +22,6 @@ public class ConstantUtils {
      * 阿里天气的24预报
      */
     public static final String ALI_WEATHER_24_HOURS = "/whapi/json/alicityweather/forecast24hours";
+
+    public static final String ZERO_PARAMS = "0.0";
 }
