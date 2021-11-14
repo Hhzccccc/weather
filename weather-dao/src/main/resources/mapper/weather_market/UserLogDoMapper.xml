@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shawnliang.weather.dao.weather_market.mapper.UserLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.shawnliang.weather.dao.weather_market.entity.UserLogDo">
+        <id column="id" property="id" />
+        <result column="ip" property="ip" />
+        <result column="imei" property="imei" />
+        <result column="user_id" property="userId" />
+        <result column="visit_time" property="visitTime" />
+        <result column="visit_date" property="visitDate" />
+        <result column="request_url" property="requestUrl" />
+        <result column="use_time" property="useTime" />
+    </resultMap>
+
+</mapper>
