@@ -127,10 +127,10 @@ public class CodeGenerator {
         // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
         dsc.setDbType(DbType.MYSQL);
-        dsc.setUrl("jdbc:mysql://49.235.201.167:3306/market_weather?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        dsc.setUrl("jdbc:mysql://159.75.25.120:3306/market_weather?useUnicode=true&useSSL=false&characterEncoding=utf8");
         dsc.setDriverName("com.mysql.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("abc123456");
+        dsc.setPassword("1s8d!Api42&23");
         mpg.setDataSource(dsc);
 
 
@@ -141,7 +141,7 @@ public class CodeGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityLombokModel(true);
         strategy.setEntityBuilderModel(true);
-        strategy.setInclude("biz_focus");
+        strategy.setInclude("user_log");
         mpg.setStrategy(strategy);
 
         mpg.execute();

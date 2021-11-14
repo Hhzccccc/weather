@@ -49,10 +49,10 @@
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 每天日志归档路径以及格式 -->
-            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-info-%d{yyyy-MM-dd-HH}.log
+            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-info-%d{yyyy-MM-dd}.log
             </fileNamePattern>
             <!--日志文件保留天数-->
-            <maxHistory>360</maxHistory>
+            <maxHistory>7</maxHistory>
         </rollingPolicy>
         <!-- 此日志文件只记录info级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -75,10 +75,10 @@
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 日志归档 -->
-            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-debug-%d{yyyy-MM-dd-HH}.log
+            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-debug-%d{yyyy-MM-dd}.log
             </fileNamePattern>
             <!--日志文件保留天数-->
-            <maxHistory>360</maxHistory>
+            <maxHistory>7</maxHistory>
         </rollingPolicy>
         <!-- 此日志文件只记录debug级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -100,10 +100,10 @@
         </encoder>
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-warn-%d{yyyy-MM-dd-HH}.log
+            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-warn-%d{yyyy-MM-dd}.log
             </fileNamePattern>
             <!--日志文件保留天数-->
-            <maxHistory>360</maxHistory>
+            <maxHistory>7</maxHistory>
         </rollingPolicy>
         <!-- 此日志文件只记录warn级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
@@ -126,10 +126,10 @@
         </encoder>
         <!-- 日志记录器的滚动策略，按日期，按大小记录 -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-error-%d{yyyy-MM-dd-HH}.log
+            <fileNamePattern>${logging.path}/${logging.name}/${logging.name}-error-%d{yyyy-MM-dd}.log
             </fileNamePattern>
             <!--日志文件保留天数-->
-            <maxHistory>360</maxHistory>
+            <maxHistory>7</maxHistory>
         </rollingPolicy>
         <!-- 此日志文件只记录ERROR级别的 -->
         <filter class="ch.qos.logback.classic.filter.LevelFilter">

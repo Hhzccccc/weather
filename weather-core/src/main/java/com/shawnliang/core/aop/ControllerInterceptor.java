@@ -1,7 +1,13 @@
 package com.shawnliang.core.aop;
 
-import com.shawnliang.core.vo.ApiResponse;
+import com.shawnliang.core.utils.DeviceUtil;
 import com.shawnliang.core.utils.IpUtil;
+import com.shawnliang.core.vo.ApiResponse;
+import com.shawnliang.weather.dao.weather_market.entity.UserLogDo;
+import com.shawnliang.weather.dao.weather_market.repository.UserLogDoRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -12,8 +18,6 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Description :   .
@@ -28,6 +32,9 @@ public class ControllerInterceptor {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private UserLogDoRepository userLogDoRepository;
 
     /**
      * 拦截所有的controller方法
@@ -52,7 +59,29 @@ public class ControllerInterceptor {
         // 后置打印log
         afterLog(pjp, result, start);
 
+        // 异步记录耗时
+        recordLogAsync(pjp, start);
+
         return result;
+    }
+
+    private void recordLogAsync(ProceedingJoinPoint pjp, long start) {
+        String requestURI = request.getRequestURI();
+        String requestIp = IpUtil.getRequestIp(request);
+        long time = System.currentTimeMillis() - start;
+        String deviceInfo = DeviceUtil.getDeviceInfo(request);
+
+        UserLogDo userLogDo = new UserLogDo();
+        userLogDo.setIp(requestIp);
+        userLogDo.setUseTime(time);
+        userLogDo.setVisitTime(LocalDateTime.now());
+        userLogDo.setVisitDate(LocalDate.now());
+        userLogDo.setImei(deviceInfo);
+        userLogDo.setRequestUrl(requestURI);
+        // TODO userId设置为0
+        userLogDo.setUserId(0);
+
+        userLogDoRepository.saveAsync(userLogDo);
     }
 
     /**
@@ -94,9 +123,7 @@ public class ControllerInterceptor {
             String className = pjp.getTarget().getClass().getSimpleName();
             String methodName = pjp.getSignature().getName();
             log.info(StringUtils.join("method[",
-                    className, ".", methodName, "],"
-                            + " 结果为: "));
-            log.debug("AOP耗时 {}", System.currentTimeMillis() - startMiles);
+                    className, ".", methodName, "]"));
         } catch (Exception e) {
             log.error("打印日志异常", e);
         }
